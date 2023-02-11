@@ -1,5 +1,6 @@
 import typer
 from rich import print
+from rich.panel import Panel
 import save
 app = typer.Typer()
 
@@ -10,7 +11,8 @@ data = save.load()
 @app.command()
 def hello(name=data.get('name', '')):
     data['name'] = name
-    print(f"[magenta]Hello {name}![/magenta]")
+    
+    print(Panel(f"[magenta]Hello {name}![/magenta]", title="CLI Girfriend"))
     save.save(data)
     
 
