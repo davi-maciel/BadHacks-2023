@@ -5,9 +5,13 @@ def standard_response():
 def hello():
     print("Hi! How are you doing today?")
 
-if __name__ == "__main__":
-    if len(sys.argv) == 1:
-        standard_response()
-    elif sys.argv[1] == "hello":
+def tired():
+    print("What made you tired? :(")
+
+while True:
+    usr_input = input()
+    if usr_input == "hello":
         hello()
+    elif usr_input.find("tired") != -1:
+        tired()
     
