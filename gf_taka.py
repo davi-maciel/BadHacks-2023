@@ -32,7 +32,7 @@ while True:
         prompt += "\n\nYou: " + userInput + "\n"
         data = openai.Completion.create(
           model="text-curie-001",
-          prompt=userInput,
+          prompt=prompt,
           temperature=1.0,
           max_tokens=150,
           top_p=1,
