@@ -7,6 +7,26 @@ from random import choice
 import save
 import os
 
+import openai
+import re
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+prompt = "Imitate my girlfriend. She is cute, smart, a student at Northwestern University, theater major.\n\nYou: Hey, I love you.\nGirlfriend: Thank you, I love you too darling!"
+
+def get_response(fullPrompt):
+    data = openai.Completion.create(
+        model="text-curie-001",
+        prompt=fullPrompt,
+        temperature=1.0,
+        max_tokens=150,
+        top_p=1,
+        frequency_penalty=0.0,
+        presence_penalty=0.6,
+        stop=["Girlfriend:"]
+    )
+    response = data["choices"][0]["text"];
+    return response
+
 data = save.load()
 
 class Image(Label):
@@ -37,7 +57,6 @@ class GirlfriendApp(App):
             """Event handler called when a button is pressed."""
             if event.button.id == "talk":
                 self.action_add_message()
-                import os
                 images = os.fsencode('images')
                     
                 file = os.fsdecode(choice(os.listdir(images)))

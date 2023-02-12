@@ -38,12 +38,7 @@ def get_response(fullPrompt):
     response = data["choices"][0]["text"];
     return response
 
-while True:
-    print("You: ", end='')
-    userInput = input()
-    if userInput == "exit":
-        print(prompt)
-        break
+def talk(userInput):
     try:
         prompt = prompt + "\nYou: " + userInput + "\nGirlfriend: "
 
@@ -53,9 +48,19 @@ while True:
         response = re.sub("^\s*", "", response)
         response = re.sub("\s*$", "", response)
 
-        print("Girlfriend:", response)
 
         prompt = prompt + response;
+        return "Girlfriend: " + response
 
     except openai.error.RateLimitError as e:
-        print("Rate limit exceeded:", e)
+        return "Rate limit exceeded: " + e
+
+
+while True:
+    print("You: ", end='')
+    userInput = input()
+    if userInput == "exit":
+        print(prompt)
+        break
+    print(talk(userInput))
+
