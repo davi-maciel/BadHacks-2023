@@ -9,12 +9,11 @@ import re
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-global prompt
 prompt = "Imitate my girlfriend. She is cute, smart, a student at Northwestern University, theater major.\n\nYou: Hey, I love you.\nGirlfriend: Thank you, I love you too darling!"
 
 def get_response(fullPrompt):
     data = openai.Completion.create(
-        model="text-curie-001",
+        model="text-davinci-003",
         prompt=fullPrompt,
         temperature=1.0,
         max_tokens=150,
@@ -26,24 +25,6 @@ def get_response(fullPrompt):
     response = data["choices"][0]["text"];
     return response
 
-def talk(userInput):
-    try:
-        global prompt
-        prompt = prompt + "\nYou: " + userInput + "\nGirlfriend: "
-
-        response = get_response(prompt)
-
-        # Remove weird blank spaces from beginning and end of response
-        response = re.sub("^\s*", "", response)
-        response = re.sub("\s*$", "", response)
-
-
-        prompt = prompt + response;
-        return "Girlfriend: " + response
-
-    except openai.error.RateLimitError as e:
-        return "Rate limit exceeded: " + e
-
 if __name__ == "__main__":
     while True:
         print("You: ", end='')
@@ -51,4 +32,20 @@ if __name__ == "__main__":
         if userInput == "exit":
             print(prompt)
             break
-        print(talk(userInput))
+        try:
+            prompt = prompt + "\nYou: " + userInput + "\nGirlfriend: "
+    
+            response = get_response(prompt)
+    
+            # Remove weird blank spaces from beginning and end of response
+            response = re.sub("^\s*", "", response)
+            response = re.sub("\s*$", "", response)
+    
+            print("Girlfriend:", response)
+    
+            prompt = prompt + response;
+    
+        except openai.error.RateLimitError as e:
+            print("Rate limit exceeded:", e)
+    
+    
