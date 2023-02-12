@@ -24,7 +24,25 @@ def get_response(fullPrompt):
         stop=["Girlfriend:", "You:"]
     )
     response = data["choices"][0]["text"];
+    response = re.sub("^\s*", "", response)
+    response = re.sub("\s*$", "", response)
     return response
+
+def get_emotion(response):
+    emotionPrompt = "Emotions available: Laughing, Blushed, Wink, Agree, Angry, Confident, Crying, Neutral, Sad\n\n" + "Sentence: I don't like you!\nEmotion: Angry\nSentence: " + response + "\nEmotion: "
+    data = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=emotionPrompt,
+        temperature=1.0,
+        max_tokens=150,
+        top_p=1,
+        frequency_penalty=0.0,
+        presence_penalty=0.6,
+    )
+    emotionResponse = data["choices"][0]["text"];
+    emotionResponse = re.sub("^\s*", "", emotionResponse)
+    emotionResponse = re.sub("\s*$", "", emotionResponse)
+    return emotionResponse
 
 def talk(userInput):
     try:
@@ -32,10 +50,9 @@ def talk(userInput):
         prompt = prompt + "\nYou: " + userInput + "\nGirlfriend: "
 
         response = get_response(prompt)
+        emotion = get_emotion(response)
 
         # Remove weird blank spaces from beginning and end of response
-        response = re.sub("^\s*", "", response)
-        response = re.sub("\s*$", "", response)
         if (re.search("CAUCAIA", response)):
             response = re.sub("CAUCAIA.*", "", response)
             if len(response) == 0:
@@ -44,6 +61,7 @@ def talk(userInput):
                 print("Girlfriend: " + response)
             os.sys.exit()
         prompt = prompt + response;
+
         return "Girlfriend: " + response
 
     except openai.error.RateLimitError as e:
