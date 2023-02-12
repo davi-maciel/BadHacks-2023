@@ -22,6 +22,7 @@ import re
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+global prompt
 prompt = "Imitate my girlfriend. She is cute, smart, a student at Northwestern University, theater major.\n\nYou: Hey, I love you.\nGirlfriend: Thank you, I love you too darling!"
 
 def get_response(fullPrompt):
@@ -40,6 +41,7 @@ def get_response(fullPrompt):
 
 def talk(userInput):
     try:
+        global prompt
         prompt = prompt + "\nYou: " + userInput + "\nGirlfriend: "
 
         response = get_response(prompt)

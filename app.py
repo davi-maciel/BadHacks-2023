@@ -27,7 +27,23 @@ def get_response(fullPrompt):
     response = data["choices"][0]["text"];
     return response
 
-data = save.load()
+def talk(userInput):
+    try:
+        prompt = prompt + "\nYou: " + userInput + "\nGirlfriend: "
+
+        response = get_response(prompt)
+
+        # Remove weird blank spaces from beginning and end of response
+        response = re.sub("^\s*", "", response)
+        response = re.sub("\s*$", "", response)
+
+
+        prompt = prompt + response;
+        return "Girlfriend: " + response
+
+    except openai.error.RateLimitError as e:
+        return "Rate limit exceeded: " + e
+
 
 class Image(Label):
     """Some text."""
