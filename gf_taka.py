@@ -21,28 +21,35 @@ import rich
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-prompt = "The following is a conversation with your girlfriend. Your girlfriend is cute, smart, a student at Northwestern University, theater major"
+prompt = "Imitate my girlfriend. She is cute, smart, a student at Northwestern University, theater major.\n\nYou: Hey, I love you.\nGirlfriend: Thank you, I love you too darling!"
+
+def get_response(fullPrompt):
+    data = openai.Completion.create(
+        model="text-curie-001",
+        prompt=fullPrompt,
+        temperature=1.0,
+        max_tokens=150,
+        top_p=1,
+        frequency_penalty=0.0,
+        presence_penalty=0.6,
+        stop=["Girlfriend:"]
+    )
+    response = data["choices"][0]["text"];
+    return response
 
 while True:
-    print("You: ")
+    print("You: ", end='')
     userInput = input()
     if userInput == "exit":
+        print(prompt)
         break
     try:
-        prompt += "\n\nYou: " + userInput + "\n"
-        data = openai.Completion.create(
-          model="text-curie-001",
-          prompt=prompt,
-          temperature=1.0,
-          max_tokens=150,
-          top_p=1,
-          frequency_penalty=0.0,
-          presence_penalty=0.6,
-          stop=[" You:", " Girlfriend:"]
-        )
-        response = data["choices"][0]["text"];
-        prompt += "Girlfriend: " + response
-        response = "[magenta]Girlfriend: " + response + "[/magenta]"
-        print(response)
+        prompt = prompt + "\nYou: " + userInput + "\nGirlfriend:"
+
+        response = get_response(prompt)
+        print("Girlfriend:", response)
+
+        prompt = prompt + response + "\n";
+
     except openai.error.RateLimitError as e:
         print("Rate limit exceeded:", e)
