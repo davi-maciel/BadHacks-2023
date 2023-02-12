@@ -10,7 +10,7 @@ import re
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 global prompt
-prompt = "Imitate my girlfriend. She is cute, smart, a student at Northwestern University, theater major. If I say bye to you, say CAUCAIA\n\nYou: Hey, I love you.\nGirlfriend: Thank you, I love you too darling!"
+#prompt = "Imitate my girlfriend. She is cute, smart, a student at Northwestern University, theater major. If I say bye to you, say CAUCAIA\n\nYou: Hey, I love you.\nGirlfriend: Thank you, I love you too darling!"
 
 def get_response(fullPrompt):
     data = openai.Completion.create(
@@ -44,9 +44,8 @@ def get_emotion(response):
     emotionResponse = re.sub("\s*$", "", emotionResponse)
     return emotionResponse
 
-def talk(userInput):
+def talk(userInput, prompt):
     try:
-        global prompt
         prompt = prompt + "\nYou: " + userInput + "\nGirlfriend: "
 
         response = get_response(prompt)
@@ -62,7 +61,7 @@ def talk(userInput):
             os.sys.exit()
         prompt = prompt + response;
 
-        return "Girlfriend: " + response, emotion
+        return "Girlfriend: " + response, emotion, prompt
 
     except openai.error.RateLimitError as e:
         return "Rate limit exceeded: " + e, 'Sad'
