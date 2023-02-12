@@ -5,12 +5,12 @@ Wrapper {
     layout: horizontal;
     height: 100%;
     width: 100%;
-    border: solid green;
+    border: solid white;
 }
 Image{
     height: 100%;
     width: 1fr;
-    border: solid blue;
+    border: solid white;
     content-align: center middle;
 }
 
@@ -23,7 +23,7 @@ Image{
 Talk{
     height: 100%;
     width: 1fr;
-    border: solid blue;
+    border: solid white;
 }
 
 #input_line {
@@ -39,13 +39,16 @@ Input {
 
 button {
     width: 1fr;
+    background: white;
 }
 
 Message {
     align: center bottom;
+    content-align: left middle;
     width: 100%;
-    border: heavy salmon;
-    height: 5%;
-    background: darkslateblue;
+    border: heavy white;
+    min-height: 5%;
+    /*background: darkslateblue;*/
     margin: 1;
+    padding: 0;
 }

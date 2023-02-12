@@ -18,6 +18,20 @@ prompt = "Imitate my girlfriend. She is cute, smart, a student at Northwestern U
 import gf_taka
 
 
+image_choice = {
+    'Crying': ['crying.miku'],
+    'Blushed': ['blush0.miku', 'blush1.miku'],
+    'Wink': ['wink0.miku', 'wink1.miku'],
+    'Agree': ['agree.miku'],
+    'Laughing': ['laughing0.miku', 'laughing1.miku'],
+    'Angry': ['angry.miku'],
+    'Neutral': ['neutral.miku'],
+    'Sad': ['sad.miku'],
+    'Confident': ['confident.miku']
+}
+
+
+
 class Image(Label):
     """Some text."""
 
@@ -28,7 +42,7 @@ class Message(Label):
 class Talk(Static):
     """Some text."""
     def compose(self) -> ComposeResult:
-        yield Container(Input(id='input_box'), Button('Talk!', id='talk', variant='success'), id='input_line')
+        yield Container(Input(id='input_box'), Button('Talk!', id='talk'), id='input_line')
         yield Container(id='messages')
 
 class Wrapper(Static):
@@ -46,16 +60,19 @@ class GirlfriendApp(App):
             """Event handler called when a button is pressed."""
             if event.button.id == "talk":
                 userInput = self.query_one('#input_box').value
-                message = gf_taka.talk(userInput)
+                message, emotion = gf_taka.talk(userInput)
                 self.action_add_message(message)
-                images = os.fsencode('images')
+                """ images = os.fsencode('images')
                     
                 file = os.fsdecode(choice(os.listdir(images)))
                 if file.endswith(".miku"): 
                     #print(file)
                     with open('images/'+file) as f:
                         lines = f.read()
-                        self.action_update_picture(lines)
+                        self.action_update_picture(lines) """
+                with open('images/'+choice(image_choice.get(emotion, ['agree.miku']))) as f:
+                    lines = f.read()
+                    self.action_update_picture(lines)
 
 
 
@@ -71,9 +88,9 @@ class GirlfriendApp(App):
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
-        yield Header()
+        #yield Header()
         yield Wrapper()
-        yield Footer()
+        #yield Footer()
 
 
 

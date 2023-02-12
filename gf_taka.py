@@ -62,10 +62,10 @@ def talk(userInput):
             os.sys.exit()
         prompt = prompt + response;
 
-        return "Girlfriend: " + response
+        return "Girlfriend: " + response, emotion
 
     except openai.error.RateLimitError as e:
-        return "Rate limit exceeded: " + e
+        return "Rate limit exceeded: " + e, 'Sad'
 
 if __name__ == "__main__":
     while True:
