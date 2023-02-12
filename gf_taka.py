@@ -14,7 +14,7 @@ prompt = "Imitate my girlfriend. She is cute, smart, a student at Northwestern U
 
 def get_response(fullPrompt):
     data = openai.Completion.create(
-        model="text-curie-001",
+        model="text-davinci-003",
         prompt=fullPrompt,
         temperature=1.0,
         max_tokens=150,
