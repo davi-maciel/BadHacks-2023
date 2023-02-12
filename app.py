@@ -7,7 +7,7 @@ from random import choice
 import save
 import os
 import argparse
-
+from types import SimpleNamespace
 
 import openai
 import re
@@ -56,11 +56,15 @@ class Image(Label):
 class Message(Label):
     """A message"""
 
+class Input2(Input):
+    def _on_enter(self, event: events.Enter) -> None:
+        return super()._on_enter(event)
+
 
 class Talk(Static):
     """Some text."""
     def compose(self) -> ComposeResult:
-        yield Container(Input(id='input_box'), Button('Talk!', id='talk'), id='input_line')
+        yield Container(Input2(id='input_box'), Button('Talk!', id='talk'), id='input_line')
         yield Container(id='messages')
 
 class Wrapper(Static):
@@ -94,6 +98,8 @@ class GirlfriendApp(App):
         new_message = Message(message)
         self.query_one("#messages").mount(new_message)
         new_message.scroll_visible()
+
+
     def action_update_picture(self, lines) -> None:
         """An action to update the picture"""
         self.query_one("#picture").update(renderable=lines)
