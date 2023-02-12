@@ -43,7 +43,12 @@ image_choice = {
     'Angry': ['angry.miku'],
     'Neutral': ['neutral.miku'],
     'Sad': ['sad.miku'],
-    'Confident': ['confident.miku']
+    'Confident': ['confident.miku'],
+    'Pout': ['pout.miku'],
+    'Frown': ['frown.miku'],
+    'Puzzled': ['puzzled.miku'],
+    'Surprised': ['surprised.miku'],
+    'Flirtatious': ['flirtatious.miku']
 }
 
 

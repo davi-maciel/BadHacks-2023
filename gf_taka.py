@@ -29,7 +29,7 @@ def get_response(fullPrompt):
     return response
 
 def get_emotion(response):
-    emotionPrompt = "Emotions available: Laughing, Blushed, Wink, Agree, Angry, Confident, Crying, Neutral, Sad\n\n" + "Sentence: I don't like you!\nEmotion: Angry\nSentence: " + response + "\nEmotion: "
+    emotionPrompt = "Emotions available: Laughing, Blushed, Wink, Agree, Angry, Confident, Crying, Neutral, Sad, Pout, Frown, Puzzled, Surprised, Flirtatious\n\n" + "Sentence: I don't like you!\nEmotion: Angry\nSentence: " + response + "\nEmotion: "
     data = openai.Completion.create(
         model="text-davinci-003",
         prompt=emotionPrompt,
