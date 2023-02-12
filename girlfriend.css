@@ -11,7 +11,15 @@ Image{
     height: 100%;
     width: 1fr;
     border: solid blue;
+    content-align: center middle;
 }
+
+#box_pic {
+    align: center middle;
+    content-align: center middle;
+    width: 1fr;
+}
+
 Talk{
     height: 100%;
     width: 1fr;

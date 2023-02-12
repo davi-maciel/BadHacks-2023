@@ -25,7 +25,7 @@ class Talk(Static):
 class Wrapper(Static):
     """A textbox."""
     def compose(self) -> ComposeResult:
-        yield Image(id='picture')
+        yield Container(Image(id='picture'), id='box_pic')
         yield Talk()
 
 class GirlfriendApp(App):
