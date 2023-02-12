@@ -11,38 +11,11 @@ import openai
 import re
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+global prompt
 prompt = "Imitate my girlfriend. She is cute, smart, a student at Northwestern University, theater major.\n\nYou: Hey, I love you.\nGirlfriend: Thank you, I love you too darling!"
 
-def get_response(fullPrompt):
-    data = openai.Completion.create(
-        model="text-curie-001",
-        prompt=fullPrompt,
-        temperature=1.0,
-        max_tokens=150,
-        top_p=1,
-        frequency_penalty=0.0,
-        presence_penalty=0.6,
-        stop=["Girlfriend:"]
-    )
-    response = data["choices"][0]["text"];
-    return response
-
-def talk(userInput):
-    try:
-        prompt = prompt + "\nYou: " + userInput + "\nGirlfriend: "
-
-        response = get_response(prompt)
-
-        # Remove weird blank spaces from beginning and end of response
-        response = re.sub("^\s*", "", response)
-        response = re.sub("\s*$", "", response)
-
-
-        prompt = prompt + response;
-        return "Girlfriend: " + response
-
-    except openai.error.RateLimitError as e:
-        return "Rate limit exceeded: " + e
+import gf_taka
 
 
 class Image(Label):
@@ -55,7 +28,7 @@ class Message(Label):
 class Talk(Static):
     """Some text."""
     def compose(self) -> ComposeResult:
-        yield Container(Input(), Button('Talk!', id='talk', variant='success'), id='input_line')
+        yield Container(Input(id='input_box'), Button('Talk!', id='talk', variant='success'), id='input_line')
         yield Container(id='messages')
 
 class Wrapper(Static):
@@ -72,7 +45,9 @@ class GirlfriendApp(App):
     def on_button_pressed(self, event: Button.Pressed) -> None:
             """Event handler called when a button is pressed."""
             if event.button.id == "talk":
-                self.action_add_message()
+                userInput = self.query_one('#input_box').value
+                message = gf_taka.talk(userInput)
+                self.action_add_message(message)
                 images = os.fsencode('images')
                     
                 file = os.fsdecode(choice(os.listdir(images)))
@@ -85,9 +60,9 @@ class GirlfriendApp(App):
 
 
 
-    def action_add_message(self) -> None:
+    def action_add_message(self, message) -> None:
         """An action to add a new message"""
-        new_message = Message('HI')
+        new_message = Message(message)
         self.query_one("#messages").mount(new_message)
         new_message.scroll_visible()
     def action_update_picture(self, lines) -> None:
