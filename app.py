@@ -1,13 +1,11 @@
 from textual.app import App, ComposeResult
 from textual.containers import Container
-from textual.widgets import Label, Header, Footer, Static
+from textual.widgets import Label, Static
 from textual.widgets import Input, Button
 from textual import events
 from random import choice
-import save
 import os
 import argparse
-from types import SimpleNamespace
 
 import openai
 import re
