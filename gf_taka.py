@@ -18,6 +18,7 @@ import openai
 import json
 import typer
 import rich
+import re
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -44,12 +45,17 @@ while True:
         print(prompt)
         break
     try:
-        prompt = prompt + "\nYou: " + userInput + "\nGirlfriend:"
+        prompt = prompt + "\nYou: " + userInput + "\nGirlfriend: "
 
         response = get_response(prompt)
+
+        # Remove weird blank spaces from beginning and end of response
+        response = re.sub("^\s*", "", response)
+        response = re.sub("\s*$", "", response)
+
         print("Girlfriend:", response)
 
-        prompt = prompt + response + "\n";
+        prompt = prompt + response;
 
     except openai.error.RateLimitError as e:
         print("Rate limit exceeded:", e)
