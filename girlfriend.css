@@ -1,0 +1,43 @@
+Screen {
+    layout: vertical;
+}
+Wrapper {
+    layout: horizontal;
+    height: 100%;
+    width: 100%;
+    border: solid green;
+}
+Image{
+    height: 100%;
+    width: 1fr;
+    border: solid blue;
+}
+Talk{
+    height: 100%;
+    width: 1fr;
+    border: solid blue;
+}
+
+#input_line {
+    align: left top;
+    layout: horizontal;
+    width: 100%;
+    height: 10%;
+}
+
+Input {
+    width: 8fr;
+}
+
+button {
+    width: 1fr;
+}
+
+Message {
+    align: center bottom;
+    width: 100%;
+    border: heavy salmon;
+    height: 5%;
+    background: darkslateblue;
+    margin: 1;
+}
