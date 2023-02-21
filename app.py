@@ -90,7 +90,7 @@ class GirlfriendApp(App):
                 message, emotion, prompt2 = gf_taka.talk(userInput, prompt)
                 prompt = prompt2
                 self.action_add_message(message)
-                with open('images/'+choice(image_choice.get(emotion, ['agree.miku']))) as f:
+                with open('images/'+choice(image_choice.get(emotion, ['agree.miku'])), encoding='utf-8') as f:
                     lines = f.read()
                     self.action_update_picture(lines)
 
